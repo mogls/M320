@@ -61,7 +61,7 @@ public class Main {
     private static void newTime(Time time) throws Exception {
         System.out.println("Hour: ");
         int hour = scanner.nextInt();
-        System.out.println("Mionute: ");
+        System.out.println("Minute: ");
         int minute = scanner.nextInt();
         System.out.println("Second: ");
         int second = scanner.nextInt();
