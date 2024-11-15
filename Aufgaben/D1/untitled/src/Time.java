@@ -78,13 +78,13 @@ public class Time {
     public Time nextSecond() {
         // check for overflow into next scale.
         if (this.second < 59) {
-            this.second += 1;
+            this.second++;
             return this;
         } else if (this.minute < 59) {
-            this.minute += 1;
+            this.minute++;
             return this;
         } else if (this.hour < 23) {
-            this.hour += 1;
+            this.hour++;
             return this;
         }
 
