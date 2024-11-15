@@ -41,7 +41,7 @@ public class Main {
                 String input = scanner.next();
 
                 switch (input) {
-                    case "e": continueLoop = false;
+                    case "e": continueLoop = false; break;
                     case "a": time = time.nextSecond(); break;
                     case "t": newTime(time); break;
                     case "h": newHour(time); break;
@@ -95,7 +95,7 @@ public class Main {
             case "h": System.out.println(time.getHour());
             case "m": System.out.println(time.getMinute());
             case "s": System.out.println(time.getSecond());
-            case "t": System.out.println(time.toString());
+            case "t": System.out.println("Time = " + time.toString());
         }
     }
 }
