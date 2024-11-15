@@ -5,60 +5,63 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        
+
         boolean continueLoop = true;
+        Time time;
 
+        try {
+            System.out.println("Hour: ");
+            int hour = scanner.nextInt();
+
+            System.out.println("Minute: ");
+            int minute = scanner.nextInt();
+
+            System.out.println("Second: ");
+            int second = scanner.nextInt();
+
+            time = new Time(second, minute, hour);
+
+            System.out.println(time);
+        } catch (Exception e) {
+            System.out.println("There was an error: \n" + e);
+            time = new Time();
+        }
+
+        while (continueLoop) {
             try {
-                System.out.println("Hour: ");
-                int hour = scanner.nextInt();
 
-                System.out.println("Minute: ");
-                int minute = scanner.nextInt();
+                System.out.println("Exit: 'e' \n" +
+                        "Add Second: 'a' \n" +
+                        "New Time: 't' \n" +
+                        "New Hour: 'h' \n" +
+                        "New Minute: 'm' \n" +
+                        "New Second: 's' \n" +
+                        "Get Data: 'g' \n");
 
-                System.out.println("Second: ");
-                int second = scanner.nextInt();
+                String input = scanner.next();
 
-                Time time = new Time(second, minute, hour);
-
-                System.out.println(time);
-
-                while (continueLoop) {
-                    try {
-
-                        System.out.println("Exit: 'e' \n" +
-                                "Add Second: 'a' \n" +
-                                "New Time: 't' \n" +
-                                "New Hour: 'h' \n" +
-                                "New Minute: 'm' \n" +
-                                "New Second: 's' \n" +
-                                "Get Data: 'g' \n");
-
-                        String input = scanner.next();
-
-                        switch (input) {
-                            case "e": continueLoop = false;
-                            case "a": time = time.nextSecond();
-                            case "t": newTime(time);
-                            case "h": newHour(time);
-                            case "m": newMinute(time);
-                            case "s": newSecond(time);
-                            case "g": newTime(time);
-                        }
-
-                    } catch (Exception e) {
-                        System.out.println("There was an error: \n" + e);
-                    }
+                switch (input) {
+                    case "e": continueLoop = false;
+                    case "a": time = time.nextSecond(); break;
+                    case "t": newTime(time); break;
+                    case "h": newHour(time); break;
+                    case "m": newMinute(time); break;
+                    case "s": newSecond(time); break;
+                    case "g": getInfo(time); break;
+                    default: break;
                 }
+
             } catch (Exception e) {
                 System.out.println("There was an error: \n" + e);
             }
+        }
 
     }
 
     private static void newTime(Time time) throws Exception {
         System.out.println("Hour: ");
         int hour = scanner.nextInt();
-        System.out.println("Minute: ");
+        System.out.println("Mionute: ");
         int minute = scanner.nextInt();
         System.out.println("Second: ");
         int second = scanner.nextInt();

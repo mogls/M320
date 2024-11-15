@@ -81,14 +81,21 @@ public class Time {
             this.second++;
             return this;
         } else if (this.minute < 59) {
+            this.second = 0;
             this.minute++;
             return this;
         } else if (this.hour < 23) {
+            this.second = 0;
+            this.minute = 0;
             this.hour++;
             return this;
         }
 
-        return new Time();
+        this.second = 0;
+        this.minute = 0;
+        this.hour = 0;
+
+        return this;
     }
 
 }
