@@ -24,4 +24,9 @@ public class Class {
                                 "No more can be added");
         }
     }
+
+    public ArrayList<Student> getStudents() {
+        return this.students;
+    }
+
 }

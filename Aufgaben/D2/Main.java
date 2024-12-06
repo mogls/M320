@@ -10,8 +10,14 @@ public class Main {
 
         // add beyond the limit
         for (int i = 1; i <= 21; i++) {
-            class1.addStudent(new Student("Miguel " + Math.round(Math.random()*100)));
+            class1.addStudent(new Student("Miguel " + i));
             System.out.println("Student Nr.: " + i);
         }
+
+        for (Student student: class1.getStudents()) {
+            student.addTest(new Test(Math.round(Math.random()*100)));
+        }
+
+        System.out.println(class1.getAverage());
     }
 }
