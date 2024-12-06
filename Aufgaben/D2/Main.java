@@ -17,5 +17,7 @@ public class Main {
         for (Student student: class1.getStudents()) {
             student.addTest(new Test(Math.round(Math.random()*100)));
         }
+
+        System.out.println(class1.getAverage());
     }
 }
