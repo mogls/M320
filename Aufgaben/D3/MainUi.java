@@ -1,19 +1,17 @@
 import javax.swing.*;
-
-
 import java.awt.*;
 
 
 class MainUi {
     public static void main(String[] args) {
         //Create the Frame
-        JFrame jframe = new JFrame("Chat Screen");
+        JFrame jframe = new JFrame("HoneyDos");
 
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jframe.setSize(600, 400);
 
-//     create two menubar button FILE and HELP
+//     create two menuBar buttons FILE and HELP
         JMenuBar menuBar = new JMenuBar();
 
         JMenu fileMenu = new JMenu("FILE");
@@ -22,7 +20,7 @@ class MainUi {
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
 
-//      create two more option in FILE button
+//      create two more options in FILE button
 
         JMenuItem fileMenu1 = new JMenuItem("new file");
         JMenuItem fileMenu2 = new JMenuItem("Save as");
@@ -34,19 +32,10 @@ class MainUi {
 
         JTextArea textArea = new JTextArea();
 
+        textArea.append("AaaaaAAaAaaaaaaaaaaaAAAAaaAAAaaaAaAAaaAaaaaAAAAAaaAAaaaaaaaAAaaaAAaaAAAaaaAAaaaaAAaa");
 
         //Create the panel at bottom and add label, textArea and buttons
-        JPanel panel = new JPanel(); // this panel is not visible in output
-
-        JLabel label = new JLabel("Please Enter Text");
-        JTextField textField = new JTextField(15); // accepts upto 15 characters
-        JButton btn_send = new JButton("Send");
-        JButton btn_reset = new JButton("Reset");
-
-        panel.add(label); // Components Added using Flow Layout
-        panel.add(textField);
-        panel.add(btn_send);
-        panel.add(btn_reset);
+        JPanel panel = getPanel();
 
         //Adding Components to the frame.
         jframe.getContentPane().add(BorderLayout.SOUTH, panel);
@@ -54,5 +43,20 @@ class MainUi {
         jframe.getContentPane().add(BorderLayout.CENTER, textArea);
         jframe.setVisible(true);
 
+    }
+
+    private static JPanel getPanel() {
+        JPanel panel = new JPanel(); // this panel is not visible in output
+
+        JLabel label = new JLabel("Please Enter Text");
+        JTextField textField = new JTextField(50); // accepts up to 50 characters
+        JButton btn_send = new JButton("Search");
+        JButton btn_reset = new JButton("Clear");
+
+        panel.add(label); // Components Added using Flow Layout
+        panel.add(textField);
+        panel.add(btn_send);
+        panel.add(btn_reset);
+        return panel;
     }
 }
