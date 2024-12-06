@@ -1,8 +1,8 @@
 public class Test {
-    final int points;
-    private int totalPoints;
+    final long points;
+    private long totalPoints;
 
-    public Test(int points) {
+    public Test(long points) {
         this.points = points;
         this.totalPoints = 100;
     }
@@ -11,7 +11,7 @@ public class Test {
         return (float) (((this.points * 5) /this.totalPoints) + 1);
     }
 
-    public void setTotalPoints(int totalPoints) {
+    public void setTotalPoints(long totalPoints) {
         this.totalPoints = totalPoints;
     }
 }
