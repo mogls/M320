@@ -5,6 +5,7 @@ import Interfaces.Stock;
 import Interfaces.StockMarket;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class Zurich implements StockMarket {
     private HashMap<String, Stock> stocks;
@@ -36,6 +37,14 @@ public class Zurich implements StockMarket {
 
     public void updateStocks(String stockName, Stock stock) {
         this.stocks.put(stockName, stock);
+    }
+
+    /**
+     *
+     * @return a Set containing the names of all stocks, available or not
+     */
+    public Set<String> getStockNames() {
+        return this.stocks.keySet();
     }
 
     private Stock checkStockExists(String stockName) throws StockMarketException {

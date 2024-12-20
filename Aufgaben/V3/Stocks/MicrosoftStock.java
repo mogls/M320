@@ -9,6 +9,7 @@ public class MicrosoftStock implements Stock {
     final private long totalStocks = 1000;
     private long remainingStocks = 1000;
 
+    public MicrosoftStock() {this.price = 100;}
     public MicrosoftStock(long price) {
         this.price = price;
     }
