@@ -89,7 +89,7 @@ public class NvidiaStock implements Interfaces.Stock {
      * @throws Exception StockException
      */
     @Override
-    public long sellStocks(long amount) throws Exception {
+    public long sellStocks(long amount) throws StockException {
         long soldStocks;
         if (this.remainingStocks <= this.totalStocks - amount) {
             soldStocks = amount;

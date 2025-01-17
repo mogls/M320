@@ -7,7 +7,7 @@ import Interfaces.Stock;
 
 public class MicrosoftStock implements Stock {
 
-    final private long price;
+    private long price;
     final private long totalStocks = 1000;
     private long remainingStocks = 1000;
 
@@ -24,6 +24,11 @@ public class MicrosoftStock implements Stock {
     @Override
     public long getPrice() {
         return this.price;
+    }
+
+    @Override
+    public void updatePrice(long amount) {
+        this.price += amount;
     }
 
     @Override
@@ -58,7 +63,7 @@ public class MicrosoftStock implements Stock {
     }
 
     @Override
-    public long sellStocks(long amount) throws Exception {
+    public long sellStocks(long amount) throws StockException {
         long soldStocks;
         if (this.remainingStocks <= this.totalStocks - amount) {
             soldStocks = amount;

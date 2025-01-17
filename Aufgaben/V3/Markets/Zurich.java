@@ -1,5 +1,6 @@
 package Markets;
 
+import Exceptions.StockException;
 import Exceptions.StockMarketException;
 import Interfaces.Stock;
 import Interfaces.StockMarket;
@@ -11,9 +12,17 @@ public class Zurich implements StockMarket {
     private HashMap<String, Stock> stocks;
 
     private final double volatility = 0.05;
+    private final double depreciation = 0.1;
+
+    private final String name = "Zurich";
 
     public Zurich(HashMap<String, Stock> stocks) {
+
         this.stocks = stocks;
+    }
+
+    public Zurich () {
+        this.stocks = new HashMap<String, Stock>();
     }
 
     @Override
@@ -36,7 +45,28 @@ public class Zurich implements StockMarket {
         return checkStockExists(stockName).sellStock();
     }
 
-    public void updateStocks(String stockName, Stock stock) {
+    /**
+     * @param stockName the name of the stocks being sold
+     * @param amount the amount of stocks to sell
+     * @return the amount of stocks sold
+     * @throws StockMarketException if something got fucked up
+     */
+    @Override
+    public long sell(String stockName, long amount) throws StockMarketException {
+        long sold;
+        try {
+
+            sold = checkStockExists(stockName).sellStocks(amount);
+
+        } catch (StockException e) {
+            throw new StockMarketException("There was an error in the stock market. \nThere are more stocks in " +
+                    stockName + " then there should be");
+        }
+
+        return sold;
+    }
+
+    public void updateStock(String stockName, Stock stock) {
         this.stocks.put(stockName, stock);
     }
 
@@ -47,6 +77,8 @@ public class Zurich implements StockMarket {
     public Set<String> getStockNames() {
         return this.stocks.keySet();
     }
+
+    public String getName() { return this.name; }
 
     private Stock checkStockExists(String stockName) throws StockMarketException {
         Stock stock = this.stocks.get(stockName);
