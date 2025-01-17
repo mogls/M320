@@ -2,16 +2,18 @@ package Stocks;
 
 import Exceptions.StockException;
 
-public class Stock implements Interfaces.Stock {
+public class NvidiaStock implements Interfaces.Stock {
 
-    final private long price;
+    private long price;
     final private long totalStocks = 1000;
     private long remainingStocks = 1000;
 
-    public Stock() {
-        this.price = 100;
+
+
+    public NvidiaStock() {
+        this.price = 150;
     }
-    public Stock(long price) {
+    public NvidiaStock(long price) {
         this.price = price;
     }
     /**
@@ -20,6 +22,16 @@ public class Stock implements Interfaces.Stock {
     @Override
     public long getPrice() {
         return this.price;
+    }
+
+    /**
+     * Updates the price based on the provided value
+     * (to subtract from the price, provide a negative value)
+     *
+     * @param amount the amount that gets added to the price (can be negative)
+     */
+    public void updatePrice(long amount) {
+        this.price += amount;
     }
 
     /**

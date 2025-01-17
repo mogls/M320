@@ -3,6 +3,8 @@ package Stocks;
 import Exceptions.StockException;
 import Interfaces.Stock;
 
+// this shit don't matter i think
+
 public class MicrosoftStock implements Stock {
 
     final private long price;

@@ -12,7 +12,6 @@ public class App {
 
     public static void run(String name) {
 
-
         //Create the Frame
         JFrame jframe = new JFrame(name);
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

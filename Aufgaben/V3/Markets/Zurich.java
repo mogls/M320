@@ -10,6 +10,8 @@ import java.util.Set;
 public class Zurich implements StockMarket {
     private HashMap<String, Stock> stocks;
 
+    private final double volatility = 0.05;
+
     public Zurich(HashMap<String, Stock> stocks) {
         this.stocks = stocks;
     }
@@ -17,7 +19,6 @@ public class Zurich implements StockMarket {
     @Override
     public long getPrice(String stockName) throws StockMarketException {
         return checkStockExists(stockName).getPrice();
-
     }
 
     @Override
@@ -49,8 +50,7 @@ public class Zurich implements StockMarket {
 
     private Stock checkStockExists(String stockName) throws StockMarketException {
         Stock stock = this.stocks.get(stockName);
-        if ( stock == null) throw new StockMarketException("There is no stock with this name");
+        if ( stock == null) throw new StockMarketException("There is no stock called : " + stockName);
         return stock;
     }
-
 }

@@ -1,9 +1,10 @@
 import Interfaces.StockMarket;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Portfolio {
-    private ArrayList<StockMarket> stockExchanges;
+    // TODO
+
 
     final public String owner;
 
