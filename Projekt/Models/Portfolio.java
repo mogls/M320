@@ -11,7 +11,7 @@ public class Portfolio {
     // TODO everything
 
     // flattened HashMap with composite key e.g. "Zurich:Nvidia"
-    private HashMap<String, Integer> ownedStocks = new HashMap<String, Integer>();
+    private HashMap<String, Integer> ownedStocks = new HashMap<>();
 
     private Integer balance;
 
@@ -28,22 +28,43 @@ public class Portfolio {
     }
 
     public void purchase(StockMarket market, String stock, Integer amount) throws StockMarketException, UserInputException {
-        int amountPurchased = market.purchase(stock, amount);
         int stockPrice = market.getPrice(stock);
-        int totalPrice = amountPurchased * stockPrice;
-        balance -= totalPrice;
+        int amountPurchased = market.purchase(stock, amount);
+        int totalPrice = stockPrice * amountPurchased;
 
+        this.balance -= totalPrice;
 
+        String fullName = market.getName() + ":" + stock;
 
-        if (balance < 0) {
+        if (this.balance < 0) {
             market.sell(stock, amountPurchased);
-            balance += totalPrice;
+            this.balance += totalPrice;
             throw new UserInputException("Insufficient funds to purchase this");
         } else {
-            Integer currentStock = ownedStocks.get(market.getName()+":"+stock);
-            currentStock = currentStock == null ? 0 : currentStock;
-            ownedStocks.put(market.getName()+":"+stock, currentStock + amountPurchased);
+            int currentStock = this.ownedStocks.get(fullName);
+            this.ownedStocks.put(fullName, currentStock + amountPurchased);
         }
+    }
+
+    public void sell(StockMarket market, String stock, Integer amount) throws StockMarketException {
+        int stockPrice = market.getPrice(stock);
+        int amountSold = 0;
+
+        try {
+            amountSold = market.sell(stock, amount);
+
+        } catch (StockMarketException e) {
+            System.out.println("Naughty Naughty");
+        }
+
+        int totalPrice = stockPrice * amountSold;
+
+        this.balance += totalPrice;
+
+        String fullName = market.getName() + ":" + stock;
+
+        int currentStock = this.ownedStocks.get(fullName);
+        this.ownedStocks.put(fullName, currentStock - amountSold);
     }
 
     public Integer getBalance() { return this.balance; }
