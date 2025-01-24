@@ -11,8 +11,8 @@ import java.util.Set;
 public class Zurich implements StockMarket {
     private HashMap<String, Stock> stocks;
 
-    private final double volatility = 0.05;
-    private final double depreciation = 0.1;
+    private final double volatility = 0.1;
+    private final double depreciation = 0.2;
 
     public Zurich(HashMap<String, Stock> stocks) {
 
@@ -64,8 +64,32 @@ public class Zurich implements StockMarket {
         return sold;
     }
 
-    public void updateStock(String stockName, Stock stock) {
+    /**
+     * @param stockName Name of the stock to add
+     * @param stock     Instance of the stock to add
+     */
+    @Override
+    public void addStock(String stockName, Stock stock) {
+        if (this.stocks.containsKey(stockName)) {
+            System.out.println("This stock already exists.");
+            return;
+        }
+
         this.stocks.put(stockName, stock);
+    }
+
+    /**
+     * @param stockName Name of the stock to update
+     * @param amount    by how much to update the price, can be negative
+     */
+    @Override
+    public void updateStockPrice(String stockName, int amount) {
+        Stock stock = this.stocks.get(stockName);
+        if (stock == null) {
+            System.out.println("This stock doesn't exist");
+            return;
+        }
+        stock.updatePrice(amount);
     }
 
     /**
@@ -79,7 +103,15 @@ public class Zurich implements StockMarket {
     public String getName() {
         return "Zurich"; }
 
+    @Override
+    public double getVolatility() {
+        return this.volatility;
+    }
 
+    @Override
+    public double getDepreciation() {
+        return this.depreciation;
+    }
 
     private Stock checkStockExists(String stockName) throws StockMarketException {
         Stock stock = this.stocks.get(stockName);
