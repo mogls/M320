@@ -12,6 +12,7 @@ import Interfaces.StockMarket;
  * @- The market in which it is located
  * @- The stock itself
  * @- The amount of the stock stored in the container, not necessarily purchased
+ * @deprecated
  */
 public class StockData {
 

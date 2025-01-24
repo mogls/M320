@@ -25,17 +25,14 @@ public class ConsoleApp {
 
             String marketName = scanner.nextLine();
 
-            String strSelectedMarket;
             StockMarket selectedMarket;
             String selectedStock;
 
             switch (marketName.toLowerCase()) {
                 case "ny":
-                    strSelectedMarket = "New York";
                     selectedMarket = newYork;
                     break;
                 case "zh":
-                    strSelectedMarket = "Zurich";
                     selectedMarket = zurich;
                     break;
                 case "cancel":
@@ -50,13 +47,15 @@ public class ConsoleApp {
 
                 System.out.println("How much do you want to buy?");
 
-                Integer amount = scanner.nextInt();
+                Integer amount = Integer.parseInt(scanner.nextLine());
 
                 try {
 
                     user.purchase(selectedMarket, selectedStock, amount);
-                } catch (Exception e) {
-                    System.out.println("There was an error");
+                } catch (StockMarketException e) {
+                    System.out.println("StockMarketException");
+                } catch (UserInputException e) {
+                    System.out.println("UserInputException");
                 }
             }
 

@@ -14,15 +14,13 @@ public class Zurich implements StockMarket {
     private final double volatility = 0.05;
     private final double depreciation = 0.1;
 
-    private final String name = "Zurich";
-
     public Zurich(HashMap<String, Stock> stocks) {
 
         this.stocks = stocks;
     }
 
     public Zurich () {
-        this.stocks = new HashMap<String, Stock>();
+        this.stocks = new HashMap<>();
     }
 
     @Override
@@ -78,11 +76,16 @@ public class Zurich implements StockMarket {
         return this.stocks.keySet();
     }
 
-    public String getName() { return this.name; }
+    public String getName() {
+        return "Zurich"; }
+
+
 
     private Stock checkStockExists(String stockName) throws StockMarketException {
         Stock stock = this.stocks.get(stockName);
         if ( stock == null) throw new StockMarketException("There is no stock called : " + stockName);
         return stock;
     }
+
+
 }

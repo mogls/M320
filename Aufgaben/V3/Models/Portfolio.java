@@ -11,7 +11,7 @@ public class Portfolio {
     // TODO everything
 
     // flattened HashMap with composite key e.g. "Zurich:Nvidia"
-    private HashMap<String, Long> ownedStocks;
+    private HashMap<String, Long> ownedStocks = new HashMap<String, Long>();
 
     private Long balance;
 
@@ -30,13 +30,19 @@ public class Portfolio {
     public void purchase(StockMarket market, String stock, Integer amount) throws StockMarketException, UserInputException {
         long amountPurchased = market.purchase(stock, amount);
         long stockPrice = market.getPrice(stock);
-        balance -= (amountPurchased * stockPrice);
+        long totalPrice = amountPurchased * stockPrice;
+        balance -= totalPrice;
+
+
+
         if (balance < 0) {
             market.sell(stock, amountPurchased);
-            balance += (amountPurchased * stockPrice);
+            balance += totalPrice;
             throw new UserInputException("Insufficient funds to purchase this");
         } else {
-            ownedStocks.put(market.getName()+":"+stock, amountPurchased);
+            Long currentStock = ownedStocks.get(market.getName()+":"+stock);
+            currentStock = currentStock == null ? 0 : currentStock;
+            ownedStocks.put(market.getName()+":"+stock, currentStock + amountPurchased);
         }
     }
 

@@ -15,14 +15,12 @@ public class NewYork implements StockMarket {
     private final double volatility = 0.02;
     private final double depreciation = 0.05;
 
-    private final String name = "New York";
-
     public NewYork(HashMap<String, Stock> stocks) {
         this.stocks = stocks;
     }
 
     public NewYork () {
-        this.stocks = new HashMap<String, Stock>();
+        this.stocks = new HashMap<>();
     }
 
     @Override
@@ -79,7 +77,8 @@ public class NewYork implements StockMarket {
         return this.stocks.keySet();
     }
 
-    public String getName() { return this.name; }
+    public String getName() {
+        return "New York"; }
 
     private Stock checkStockExists(String stockName) throws StockMarketException {
         Stock stock = this.stocks.get(stockName);
