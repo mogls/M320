@@ -3,12 +3,12 @@ package Interfaces;
 import Exceptions.StockException;
 
 public interface Stock {
-    long getPrice();
-    long getRemainingStocks();
-    long purchaseStock();
-    long purchaseStocks(long amount);
-    long sellStock();
-    long sellStocks(long amount) throws StockException;
+    int getPrice();
+    int getRemainingStocks();
+    int purchaseStock();
+    int purchaseStocks(int amount);
+    int sellStock();
+    int sellStocks(int amount) throws StockException;
 
-    void updatePrice(long amount);
+    void updatePrice(int amount);
 }

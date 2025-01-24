@@ -7,32 +7,32 @@ import Interfaces.Stock;
 
 public class MicrosoftStock implements Stock {
 
-    private long price;
-    final private long totalStocks = 1000;
-    private long remainingStocks = 1000;
+    private int price;
+    final private int totalStocks = 1000;
+    private int remainingStocks = 1000;
 
     public MicrosoftStock() {this.price = 100;}
-    public MicrosoftStock(long price) {
+    public MicrosoftStock(int price) {
         this.price = price;
     }
 
     @Override
-    public long getRemainingStocks() {
+    public int getRemainingStocks() {
         return this.remainingStocks;
     }
 
     @Override
-    public long getPrice() {
+    public int getPrice() {
         return this.price;
     }
 
     @Override
-    public void updatePrice(long amount) {
+    public void updatePrice(int amount) {
         this.price += amount;
     }
 
     @Override
-    public long purchaseStock() {
+    public int purchaseStock() {
         if (this.remainingStocks > 0) {
             this.remainingStocks -= 1;
             return 1;
@@ -41,8 +41,8 @@ public class MicrosoftStock implements Stock {
     }
 
     @Override
-    public long purchaseStocks(long amount) {
-        long purchasedStocks;
+    public int purchaseStocks(int amount) {
+        int purchasedStocks;
         if (this.remainingStocks >= amount) {
             purchasedStocks = amount;
             this.remainingStocks -= purchasedStocks;
@@ -54,7 +54,7 @@ public class MicrosoftStock implements Stock {
     }
 
     @Override
-    public long sellStock() {
+    public int sellStock() {
         if (this.remainingStocks < this.totalStocks) {
             this.remainingStocks += 1;
             return 1;
@@ -63,8 +63,8 @@ public class MicrosoftStock implements Stock {
     }
 
     @Override
-    public long sellStocks(long amount) throws StockException {
-        long soldStocks;
+    public int sellStocks(int amount) throws StockException {
+        int soldStocks;
         if (this.remainingStocks <= this.totalStocks - amount) {
             soldStocks = amount;
             this.remainingStocks += soldStocks;

@@ -24,22 +24,22 @@ public class Zurich implements StockMarket {
     }
 
     @Override
-    public long getPrice(String stockName) throws StockMarketException {
+    public int getPrice(String stockName) throws StockMarketException {
         return checkStockExists(stockName).getPrice();
     }
 
     @Override
-    public long purchase(String stockName) throws StockMarketException {
+    public int purchase(String stockName) throws StockMarketException {
         return checkStockExists(stockName).purchaseStock();
     }
 
     @Override
-    public long purchase(String stockName, long amount) throws StockMarketException {
+    public int purchase(String stockName, int amount) throws StockMarketException {
         return checkStockExists(stockName).purchaseStocks(amount);
     }
 
     @Override
-    public long sell(String stockName) throws StockMarketException {
+    public int sell(String stockName) throws StockMarketException {
         return checkStockExists(stockName).sellStock();
     }
 
@@ -50,8 +50,8 @@ public class Zurich implements StockMarket {
      * @throws StockMarketException if something got fucked up
      */
     @Override
-    public long sell(String stockName, long amount) throws StockMarketException {
-        long sold;
+    public int sell(String stockName, int amount) throws StockMarketException {
+        int sold;
         try {
 
             sold = checkStockExists(stockName).sellStocks(amount);

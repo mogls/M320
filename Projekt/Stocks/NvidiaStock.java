@@ -4,23 +4,23 @@ import Exceptions.StockException;
 
 public class NvidiaStock implements Interfaces.Stock {
 
-    private long price;
-    final private long totalStocks = 1000;
-    private long remainingStocks = 1000;
+    private int price;
+    final private int totalStocks = 1000;
+    private int remainingStocks = 1000;
 
 
 
     public NvidiaStock() {
         this.price = 150;
     }
-    public NvidiaStock(long price) {
+    public NvidiaStock(int price) {
         this.price = price;
     }
     /**
      * @return current price of the stock
      */
     @Override
-    public long getPrice() {
+    public int getPrice() {
         return this.price;
     }
 
@@ -30,7 +30,7 @@ public class NvidiaStock implements Interfaces.Stock {
      *
      * @param amount the amount that gets added to the price (can be negative)
      */
-    public void updatePrice(long amount) {
+    public void updatePrice(int amount) {
         this.price += amount;
     }
 
@@ -38,7 +38,7 @@ public class NvidiaStock implements Interfaces.Stock {
      * @return remaining stock
      */
     @Override
-    public long getRemainingStocks() {
+    public int getRemainingStocks() {
         return this.remainingStocks;
     }
 
@@ -46,7 +46,7 @@ public class NvidiaStock implements Interfaces.Stock {
      * @return number of stocks successfully purchased, usually 1 unless there in insufficient remaining stock
      */
     @Override
-    public long purchaseStock() {
+    public int purchaseStock() {
         if (this.remainingStocks > 0) {
             this.remainingStocks -= 1;
             return 1;
@@ -59,8 +59,8 @@ public class NvidiaStock implements Interfaces.Stock {
      * @return amount of stocks successfully purchased, usually equal to input amount unless there in insufficient remaining stock
      */
     @Override
-    public long purchaseStocks(long amount) {
-        long purchasedStocks;
+    public int purchaseStocks(int amount) {
+        int purchasedStocks;
         if (this.remainingStocks >= amount) {
             purchasedStocks = amount;
             this.remainingStocks -= purchasedStocks;
@@ -75,7 +75,7 @@ public class NvidiaStock implements Interfaces.Stock {
      * @return number of stocks successfully sold, usually 0
      */
     @Override
-    public long sellStock() {
+    public int sellStock() {
         if (this.remainingStocks < this.totalStocks) {
             this.remainingStocks += 1;
             return 1;
@@ -89,8 +89,8 @@ public class NvidiaStock implements Interfaces.Stock {
      * @throws Exception StockException
      */
     @Override
-    public long sellStocks(long amount) throws StockException {
-        long soldStocks;
+    public int sellStocks(int amount) throws StockException {
+        int soldStocks;
         if (this.remainingStocks <= this.totalStocks - amount) {
             soldStocks = amount;
             this.remainingStocks += soldStocks;
