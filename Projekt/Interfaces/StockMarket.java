@@ -18,12 +18,14 @@ public interface StockMarket {
 //    void globalUpdate(double percentage);
 
     /**
-     * Add or update a stock to the market
-     * @param stockName Name of the stock to add or update
-     * @param stock Instance of the stock to add or update
+     * Add a stock to the market
+     * @param stockName Name of the stock to add
+     * @param stock Instance of the stock to add
      */
 
-    void updateStock(String stockName, Stock stock);
+    void addStock(String stockName, Stock stock);
+
+    void updateStockPrice(String stockName, int amount);
 
     /**
      *
@@ -32,4 +34,7 @@ public interface StockMarket {
     Set<String> getStockNames();
 
     String getName();
+
+    double getVolatility();
+    double getDepreciation();
 }
