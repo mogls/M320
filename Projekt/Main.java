@@ -3,7 +3,7 @@ import Exceptions.UserInputException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws UserInputException {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         boolean loop = true;
@@ -16,28 +16,26 @@ public class Main {
                     "- Exit (e) \n");
 
             String mode = scanner.nextLine();
-            try {
 
-                switch (mode) {
-                    case "d":
-                        System.out.println("Not implemented yet");
-                        // TODO: uncomment later, when/if debug mode gets implemented
-    //                    loop = false;
-                        break;
-                    case "u":
-                        App.run("Stock Market Simulator");
-                        loop = false;
-                        break;
-                    case "c":
-                        ConsoleApp.run();
-                        loop = false;
-                        break;
-                    case "e": loop = false; break;
-                    default: throw new UserInputException();
-                }
-            } catch (UserInputException e) {
-                System.out.println("Can't input that");
+            switch (mode) {
+                case "d":
+                    System.out.println("Not implemented yet");
+                    // TODO: uncomment later, when/if debug mode gets implemented
+//                    loop = false;
+                    break;
+                case "u":
+                    App.run("Stock Market Simulator");
+                    loop = false;
+                    break;
+                case "c":
+                    ConsoleApp.run();
+                    loop = false;
+                    break;
+                case "e": loop = false; break;
+                default: System.out.println("Can't input that");
+
             }
+
         }
     }
 }
