@@ -44,18 +44,6 @@ public class NvidiaStock implements Stock {
     }
 
     /**
-     * @return number of stocks successfully purchased, usually 1 unless there in insufficient remaining stock
-     */
-    @Override
-    public int purchaseStock() {
-        if (this.remainingStocks > 0) {
-            this.remainingStocks -= 1;
-            return 1;
-        }
-        return 0;
-    }
-
-    /**
      * @param amount number of stocks to purchase
      * @return amount of stocks successfully purchased, usually equal to input amount unless there in insufficient remaining stock
      */
@@ -70,18 +58,6 @@ public class NvidiaStock implements Stock {
             this.remainingStocks -= purchasedStocks;
         }
         return purchasedStocks;
-    }
-
-    /**
-     * @return number of stocks successfully sold, usually 0
-     */
-    @Override
-    public int sellStock() {
-        if (this.remainingStocks < this.totalStocks) {
-            this.remainingStocks += 1;
-            return 1;
-        }
-        return 0;
     }
 
     /**

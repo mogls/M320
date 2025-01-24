@@ -35,7 +35,7 @@ public class Zurich implements StockMarket {
 
     @Override
     public int purchase(String stockName) throws StockMarketException {
-        return checkStockExists(stockName).purchaseStock();
+        return checkStockExists(stockName).purchaseStocks(1);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class Zurich implements StockMarket {
     }
 
     @Override
-    public int sell(String stockName) throws StockMarketException {
-        return checkStockExists(stockName).sellStock();
+    public int sell(String stockName) throws StockMarketException, StockException {
+        return checkStockExists(stockName).sellStocks(1);
     }
 
     /**

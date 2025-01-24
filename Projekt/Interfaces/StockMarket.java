@@ -1,5 +1,6 @@
 package Interfaces;
 
+import Exceptions.StockException;
 import Exceptions.StockMarketException;
 
 import java.util.Set;
@@ -18,7 +19,7 @@ public interface StockMarket {
 
     int purchase(String stockName, int amount) throws StockMarketException;
 
-    int sell(String stockName) throws StockMarketException;
+    int sell(String stockName) throws StockMarketException, StockException;
 
     int sell(String stockName, int amount) throws StockMarketException;
 

@@ -31,15 +31,6 @@ public class MicrosoftStock implements Stock {
     }
 
     @Override
-    public int purchaseStock() {
-        if (this.remainingStocks > 0) {
-            this.remainingStocks -= 1;
-            return 1;
-        }
-        return 0;
-    }
-
-    @Override
     public int purchaseStocks(int amount) {
         int purchasedStocks;
         if (this.remainingStocks >= amount) {
@@ -50,15 +41,6 @@ public class MicrosoftStock implements Stock {
             this.remainingStocks -= purchasedStocks;
         }
         return purchasedStocks;
-    }
-
-    @Override
-    public int sellStock() {
-        if (this.remainingStocks < this.totalStocks) {
-            this.remainingStocks += 1;
-            return 1;
-        }
-        return 0;
     }
 
     @Override
