@@ -29,6 +29,11 @@ public class Zurich implements StockMarket {
     }
 
     @Override
+    public int getRemainingStock(String stockName) throws StockMarketException {
+        return checkStockExists(stockName).getRemainingStocks();
+    }
+
+    @Override
     public int purchase(String stockName) throws StockMarketException {
         return checkStockExists(stockName).purchaseStock();
     }

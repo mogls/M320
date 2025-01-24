@@ -6,6 +6,13 @@ import java.util.Set;
 
 public interface StockMarket {
     int getPrice(String stockName) throws StockMarketException;
+    int getRemainingStock(String stockName) throws StockMarketException;
+
+    /**
+     *
+     * @return a Set containing the names of all stocks, available or not
+     */
+    Set<String> getStockNames();
 
     int purchase(String stockName) throws StockMarketException;
 
@@ -26,12 +33,6 @@ public interface StockMarket {
     void addStock(String stockName, Stock stock);
 
     void updateStockPrice(String stockName, int amount) throws StockMarketException;
-
-    /**
-     *
-     * @return a Set containing the names of all stocks, available or not
-     */
-    Set<String> getStockNames();
 
     String getName();
 
