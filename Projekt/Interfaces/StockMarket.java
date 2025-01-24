@@ -23,8 +23,6 @@ public interface StockMarket {
 
     int sell(String stockName, int amount) throws StockMarketException;
 
-//    void globalUpdate(double percentage);
-
     /**
      * Add a stock to the market
      * @param stockName Name of the stock to add
