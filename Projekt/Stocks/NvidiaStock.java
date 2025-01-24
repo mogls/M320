@@ -1,8 +1,9 @@
 package Stocks;
 
 import Exceptions.StockException;
+import Interfaces.Stock;
 
-public class NvidiaStock implements Interfaces.Stock {
+public class NvidiaStock implements Stock {
 
     private int price;
     final private int totalStocks = 1000;

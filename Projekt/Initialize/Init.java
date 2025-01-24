@@ -21,9 +21,9 @@ public class Init {
                 int price = market.getPrice(stockName);
                 double depreciation = market.getDepreciation();
 
-                double amount = price * (1-depreciation);
+                double amount = price * depreciation;
 
-                market.updateStockPrice(stockName, (int) Math.round(amount));
+                market.updateStockPrice(stockName, (int) -Math.round(amount));
 
             } catch (StockMarketException e) {
                 System.out.println("WTH?????");

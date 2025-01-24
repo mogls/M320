@@ -13,7 +13,7 @@ public class NewYork implements StockMarket {
     private HashMap<String, Stock> stocks;
 
     private final double volatility = 0.05;
-    private final double depreciation = 0.1;
+    private final double depreciation = 0.08;
 
     public NewYork(HashMap<String, Stock> stocks) {
         this.stocks = stocks;

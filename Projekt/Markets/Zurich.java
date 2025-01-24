@@ -12,7 +12,7 @@ public class Zurich implements StockMarket {
     private HashMap<String, Stock> stocks;
 
     private final double volatility = 0.1;
-    private final double depreciation = 0.2;
+    private final double depreciation = 0.1;
 
     public Zurich(HashMap<String, Stock> stocks) {
 
