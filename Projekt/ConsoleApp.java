@@ -5,7 +5,6 @@ import Interfaces.StockMarket;
 import Markets.NewYork;
 import Markets.Zurich;
 import Models.Portfolio;
-import Models.StockData;
 
 import java.util.Scanner;
 
