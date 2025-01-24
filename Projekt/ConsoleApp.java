@@ -41,7 +41,7 @@ public class ConsoleApp {
                     selectedMarket = zurich;
             }
 
-            selectedStock = selectStock();
+            selectedStock = selectStock(selectedMarket);
 
             if (!selectedStock.equals("cancel")) {
 
@@ -65,14 +65,19 @@ public class ConsoleApp {
 
     }
     // also doubles as a purchase
-    private static String selectStock() {
+    private static String selectStock(StockMarket market) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("In which stock would you like to invest: \n" +
-                    "- Microsoft (mc) \n" +
-                    "- Nvidia (nv) \n" +
-                    "- Cancel (cancel)");
-
+            try {
+                System.out.println("In which stock would you like to invest: \n" +
+                        "- Microsoft (mc) " + market.getPrice("Microsoft") + "\n" +
+                        "- Nvidia (nv) " + market.getPrice("Nvidia") + "\n" +
+                        "- Cancel (cancel)");
+            } catch (StockMarketException e) {
+                System.out.println("There was an error in the initialization, " +
+                        "one or more of the stocks aren't available");
+                return "cancel";
+            }
             String stock = scanner.nextLine();
 
             switch (stock.toLowerCase()) {

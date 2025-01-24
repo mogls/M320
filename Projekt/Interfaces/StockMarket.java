@@ -25,7 +25,7 @@ public interface StockMarket {
 
     void addStock(String stockName, Stock stock);
 
-    void updateStockPrice(String stockName, int amount);
+    void updateStockPrice(String stockName, int amount) throws StockMarketException;
 
     /**
      *

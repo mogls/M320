@@ -84,13 +84,8 @@ public class NewYork implements StockMarket {
      * @param amount    by how much to update the price, can be negative
      */
     @Override
-    public void updateStockPrice(String stockName, int amount) {
-        Stock stock = this.stocks.get(stockName);
-        if (stock == null) {
-            System.out.println("This stock doesn't exist");
-            return;
-        }
-        stock.updatePrice(amount);
+    public void updateStockPrice(String stockName, int amount) throws StockMarketException {
+        checkStockExists(stockName).updatePrice(amount);
     }
 
     /**
