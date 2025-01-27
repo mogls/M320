@@ -1,31 +1,43 @@
 package Ui;
 
 
+import Interfaces.Renderable;
+
 import javax.swing.*;
-import java.awt.*;
 
+public class MenuBar extends UiInteractiveItem<JMenuItem> implements Renderable<JMenuBar> {
 
-public class MenuBar extends UiInteractiveItem<JMenuItem> {
+    private final JMenuBar menuBar;
 
     // TODO? makes logic and ui a bit tightly coupled, might refactor, but it works for now
-    public JMenuBar initUi() {
-        JMenuBar menuBar = new JMenuBar();
+    public MenuBar() {
+        this.menuBar = new JMenuBar();
+        
+        JMenu stonksMenu = new JMenu("Stonks");
 
-        JMenuItem stocksMenu = new JMenuItem("Stonks");
+        JMenuItem marketMenu = new JMenuItem("Market");
         JMenuItem portfolioMenu = new JMenuItem("Portfolio");
 
-        stocksMenu.setName("Stonks");
+        marketMenu.setName("Market");
         portfolioMenu.setName("Portfolio");
 
-        this.add(stocksMenu.getName(), stocksMenu);
+        this.add(marketMenu.getName(), marketMenu);
         this.add(portfolioMenu.getName(), portfolioMenu);
 
-        menuBar.add(stocksMenu);
-        menuBar.add(portfolioMenu);
+        stonksMenu.add(marketMenu);
+        stonksMenu.add(portfolioMenu);
 
-        return menuBar;
+        this.menuBar.add(stonksMenu);
+
+
     }
-    
 
 
+    /**
+     * @return The item to be rendered
+     */
+    @Override
+    public JMenuBar render() {
+        return this.menuBar;
+    }
 }

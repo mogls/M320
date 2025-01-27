@@ -1,66 +1,81 @@
 
+import Exceptions.StockMarketException;
+import Exceptions.UserInputException;
+import Initialize.Init;
+import Interfaces.Stock;
+import Interfaces.StockMarket;
+import Markets.NewYork;
+import Markets.Zurich;
+import Models.Portfolio;
+import Ui.MainContent;
 import Ui.MenuBar;
+import Ui.PurchasePanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
-public class App {
+public class App extends JFrame {
 
 
-    public static void run(String name) {
+    public App(String name) {
 
         //Create the Frame
-        JFrame jframe = new JFrame(name);
-        jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jframe.setSize(600, 600);
+        setTitle(name);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 600);
+
+        // init stock markets
+        NewYork newYork = (NewYork) Init.initMarket(new NewYork());
+        Zurich zurich = (Zurich) Init.initMarket(new Zurich());
+
+        ArrayList<StockMarket> stockMarkets = new ArrayList<>();
+        stockMarkets.add(zurich);
+        stockMarkets.add(newYork);
+
+        Portfolio user = new Portfolio("User");
+        // test values
+        try {
+            user.purchase(zurich, "Nvidia", 1000);
+        } catch (StockMarketException e) {
+            System.out.println("StockMarketException: " + e);
+        } catch (UserInputException e) {
+            System.out.println("UserInputException: " + e);
+        }
 
 
-        // logic
         MenuBar menuBar = new MenuBar();
-        // Ui
-        JMenuBar jMenuBar = menuBar.initUi();
+        PurchasePanel purchasePanel = new PurchasePanel();
+        MainContent marketContent = new MainContent(stockMarkets);
+        MainContent portfolioContent = new MainContent(user);
 
-        // Text Area at the Center
-        JTextArea textArea = new JTextArea();
+        CardLayout cardLayout = new CardLayout();
+        JPanel contentPanel = new JPanel(cardLayout);
+
+        contentPanel.add(marketContent.render(), "Markets");
+        contentPanel.add(portfolioContent.render(), "Portfolio");
 
 
+        menuBar.get("Market").addActionListener(e -> cardLayout.show(contentPanel, "Markets"));
+        menuBar.get("Portfolio").addActionListener(e -> cardLayout.show(contentPanel, "Portfolio"));
 
-        //Create the panel at bottom and add label, textArea and buttons
-        JPanel panel = new JPanel(); // this panel is not visible in output
-        JLabel label = new JLabel("Please Enter Text");
-        JTextField textField = new JTextField(15); // accepts up to 15 characters
-        JButton btn_send = new JButton("Send");
-        JButton btn_reset = new JButton("Reset");
-        JButton btn_hide = new JButton("Hide");
+        cardLayout.show(contentPanel, "Markets");
 
-        btn_send.addActionListener(e -> {
-            // Add text to the text area
-            textArea.append(textField.getText()+"\n");
-            textField.setText("");
-            // System.out.print(e.toString());
+        setJMenuBar(menuBar.render());
+        add(contentPanel, BorderLayout.CENTER);
+        add(purchasePanel.render(), BorderLayout.SOUTH);
+    }
+
+    public static void run(String name) {
+        SwingUtilities.invokeLater(() -> {
+            App app = new App(name);
+            app.setVisible(true);
         });
-
-        btn_reset.addActionListener(e -> textArea.setText(""));
-
-        btn_hide.addActionListener(e -> panel.setVisible(false));
-
-        menuBar.get("Stonks").addActionListener(e -> panel.setVisible(true));
-
-        panel.add(label); // Components Added using Flow Layout
-        panel.add(textField);
-        panel.add(btn_send);
-        panel.add(btn_reset);
-        panel.add(btn_hide);
-
-        //Adding Components to the frame.
-        jframe.getContentPane().add(BorderLayout.SOUTH, panel);
-        jframe.getContentPane().add(BorderLayout.NORTH, jMenuBar);
-        jframe.getContentPane().add(BorderLayout.CENTER, textArea);
-        jframe.setVisible(true);
     }
 }

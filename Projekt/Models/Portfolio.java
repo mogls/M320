@@ -6,6 +6,7 @@ import Interfaces.Stock;
 import Interfaces.StockMarket;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class Portfolio {
     // TODO everything
@@ -41,7 +42,8 @@ public class Portfolio {
             this.balance += totalPrice;
             throw new UserInputException("Insufficient funds to purchase this");
         } else {
-            int currentStock = this.ownedStocks.get(fullName);
+            Integer currentStock = this.ownedStocks.get(fullName);
+            currentStock = currentStock == null ? 0 : currentStock;
             this.ownedStocks.put(fullName, currentStock + amountPurchased);
         }
     }
@@ -54,7 +56,7 @@ public class Portfolio {
             amountSold = market.sell(stock, amount);
 
         } catch (StockMarketException e) {
-            System.out.println("Naughty Naughty");
+            System.out.println("Naughty Naughty \n" + e);
         }
 
         int totalPrice = stockPrice * amountSold;
@@ -69,5 +71,6 @@ public class Portfolio {
 
     public Integer getBalance() { return this.balance; }
 
-    public HashMap<String, Integer> getOwnedStocks() { return this.ownedStocks; }
+    public Set<String> getOwnedStockNames() { return this.ownedStocks.keySet(); }
+    public Integer getOwnedStock(String key) { return this.ownedStocks.get(key); }
 }

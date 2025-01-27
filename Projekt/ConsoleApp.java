@@ -59,7 +59,7 @@ public class ConsoleApp {
             }
 
             System.out.println(user.getBalance());
-            System.out.println(user.getOwnedStocks());
+            System.out.println(user.getOwnedStockNames());
         }
 
     }
