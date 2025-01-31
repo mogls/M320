@@ -20,19 +20,13 @@ public class Market implements Renderable<JPanel> {
     private CardLayout cardLayout;
 
     private MarketContent marketContent;
-    private PurchasePanel purchasePanel;
+    private ControlPanel controlPanel;
 
     private ArrayList<MarketSubContent> marketSubContents = new ArrayList<>();
 
     private String selectedStock;
     private StockMarket selectedMarket;
     private MarketSubContent selectedMarketSubContent;
-
-//    private JPanel subContentContainer;
-
-    // TODO: update needs removeAll() but functions will be here, so just reapply
-    //  afterwards make subContent() and following gets part of a list, as they don't need their own identity
-
 
     public Market(ArrayList<StockMarket> stockMarkets, Portfolio portfolio) {
         this.stockMarkets = stockMarkets;
@@ -43,7 +37,7 @@ public class Market implements Renderable<JPanel> {
     }
 
     private void initialize () {
-        this.purchasePanel = new PurchasePanel();
+        this.controlPanel = new ControlPanel();
         this.marketContent = new MarketContent(this.stockMarkets);
 
         this.cardLayout = new CardLayout();
@@ -70,20 +64,32 @@ public class Market implements Renderable<JPanel> {
         this.createMarketFunctions();
         this.createSubContents();
         this.attachSubContentsToMarket();
-        this.setupPurchasePanel();
+        this.setupControlPanel();
     }
 
-    private void setupPurchasePanel() {
-        JButton purchaseButton = this.purchasePanel.get("Purchase");
+    private void setupControlPanel() {
+        JButton purchaseButton = this.controlPanel.get("Purchase");
         purchaseButton.addActionListener(e -> this.purchaseStock());
-
+        JButton sellButton = this.controlPanel.get("Sell");
+        sellButton.addActionListener(e -> this.sellStock());
     }
 
     private void purchaseStock() {
         try {
-            Integer purchaseAmount = this.purchasePanel.getPurchaseAmount();
+            Integer purchaseAmount = this.controlPanel.getAmount();
+            System.out.println("Purchase Amount: " + purchaseAmount);
             this.portfolio.purchase(this.selectedMarket, this.selectedStock, purchaseAmount);
         } catch (StockMarketException | UserInputException e) {
+            System.out.println("There was an error: " + e);
+        }
+    }
+    
+    private void sellStock() {
+        try {
+            Integer sellAmount = this.controlPanel.getAmount();
+            System.out.println("SellAmount: " + sellAmount);
+            this.portfolio.sell(this.selectedMarket, this.selectedStock, sellAmount);
+        } catch (StockMarketException e) {
             System.out.println("There was an error: " + e);
         }
     }
@@ -132,7 +138,7 @@ public class Market implements Renderable<JPanel> {
         }
 
         Container subContentContainer = selectedMarketSubContent.render().getParent();
-        subContentContainer.add(this.purchasePanel.render(), BorderLayout.SOUTH);
+        subContentContainer.add(this.controlPanel.render(), BorderLayout.SOUTH);
         subContentContainer.revalidate();
         subContentContainer.repaint();
     }

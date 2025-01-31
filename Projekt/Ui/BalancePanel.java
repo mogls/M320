@@ -11,7 +11,7 @@ public class BalancePanel implements Renderable<JPanel> {
 
     private final JPanel panel;
 
-    private Portfolio portfolio;
+    private final Portfolio portfolio;
 
     public BalancePanel(Portfolio portfolio) {
         this.portfolio = portfolio;
