@@ -1,6 +1,7 @@
 package Ui;
 
 import Interfaces.Renderable;
+import Models.Portfolio;
 
 import javax.swing.*;
 
@@ -9,10 +10,15 @@ public class PurchasePanel extends UiInteractiveItem<JButton> implements Rendera
 
     private final JPanel panel;
 
-    public PurchasePanel() {
+    private JTextField textField;
+
+    private Portfolio portfolio;
+
+    public PurchasePanel(Portfolio portfolio) {
+        this.portfolio = portfolio;
         this.panel = new JPanel();
         JLabel label = new JLabel("Amount to purchase: ");
-        JTextField textField = new JTextField(10); // accepts up to 10 characters
+        this.textField = new JTextField(10); // accepts up to 10 characters
         JButton btn_purchase = new JButton("Purchase");
         JButton btn_cancel = new JButton("Cancel");
 
@@ -38,6 +44,10 @@ public class PurchasePanel extends UiInteractiveItem<JButton> implements Rendera
         this.panel.add(btn_purchase);
         this.panel.add(btn_cancel);
 
+    }
+
+    public Integer getPurchaseAmount() {
+        return Integer.parseInt(this.textField.getText());
     }
 
     /**

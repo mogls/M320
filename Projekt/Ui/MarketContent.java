@@ -8,15 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * @deprecated
- */
-public class MainContent extends UiInteractiveItem<JLabel> implements Renderable<JScrollPane> {
+public class MarketContent extends UiInteractiveItem<JLabel> implements Renderable<JScrollPane> {
+
+    private ArrayList<StockMarket> stockMarkets;
+
     private JScrollPane scrollPane;
 
     private JPanel textPanel;
 
-    public MainContent(ArrayList<StockMarket> stockMarkets) {
+    public MarketContent(ArrayList<StockMarket> stockMarkets) {
+        this.stockMarkets = stockMarkets;
         this.textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
 
@@ -35,11 +36,8 @@ public class MainContent extends UiInteractiveItem<JLabel> implements Renderable
         }
     }
 
-    public MainContent(Portfolio portfolio) {
-        this.textPanel = new JPanel();
-        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        scrollPane = new JScrollPane(textPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    public void update() {
+        textPanel.removeAll();
 
         JLabel title = new JLabel("Portfolio");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -47,33 +45,15 @@ public class MainContent extends UiInteractiveItem<JLabel> implements Renderable
         textPanel.add(title);
         textPanel.add(Box.createVerticalStrut(20));
 
-        for (String stockName: portfolio.getOwnedStockNames()) {
-            // in form of marketName:stockName
-            String marketName = stockName.split(":")[0];
-
-            textPanel.add(createClickableText(marketName));
-
+        for (StockMarket market: stockMarkets) {
+            textPanel.add(createClickableText(market.getName()));
             textPanel.add(Box.createVerticalStrut(10));
         }
+
+        textPanel.revalidate();
+        textPanel.repaint();
     }
 
-//    unused ATM
-//    public MainContent() {
-//        JPanel textPanel = new JPanel();
-//        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-//
-//        scrollPane = new JScrollPane(textPanel);
-//
-//        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-//
-//        JLabel clickableText = new JLabel("test");
-//        clickableText.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//        clickableText.setAlignmentX(Component.LEFT_ALIGNMENT);
-//
-//        textPanel.add(clickableText);
-//    }
-
-    // TODO: add function callback in later implementation
     private JLabel createClickableText(String text) {
         JLabel clickableText = new JLabel(text);
         clickableText.setCursor(new Cursor(Cursor.HAND_CURSOR));

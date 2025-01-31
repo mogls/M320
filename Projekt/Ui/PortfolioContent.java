@@ -1,41 +1,21 @@
 package Ui;
 
 import Interfaces.Renderable;
-import Interfaces.StockMarket;
 import Models.Portfolio;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
-/**
- * @deprecated
- */
-public class MainContent extends UiInteractiveItem<JLabel> implements Renderable<JScrollPane> {
+public class PortfolioContent extends UiInteractiveItem<JLabel> implements Renderable<JScrollPane> {
+
+    private Portfolio portfolio;
+
     private JScrollPane scrollPane;
 
     private JPanel textPanel;
 
-    public MainContent(ArrayList<StockMarket> stockMarkets) {
-        this.textPanel = new JPanel();
-        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-
-        scrollPane = new JScrollPane(textPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        JLabel title = new JLabel("Stock Markets");
-        title.setFont(new Font("Arial", Font.PLAIN, 40));
-
-        textPanel.add(title);
-        textPanel.add(Box.createVerticalStrut(20));
-
-        for (StockMarket market: stockMarkets) {
-            textPanel.add(createClickableText(market.getName()));
-            textPanel.add(Box.createVerticalStrut(10));
-        }
-    }
-
-    public MainContent(Portfolio portfolio) {
+    public PortfolioContent(Portfolio portfolio) {
+        this.portfolio = portfolio;
         this.textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
         scrollPane = new JScrollPane(textPanel);
@@ -57,23 +37,28 @@ public class MainContent extends UiInteractiveItem<JLabel> implements Renderable
         }
     }
 
-//    unused ATM
-//    public MainContent() {
-//        JPanel textPanel = new JPanel();
-//        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-//
-//        scrollPane = new JScrollPane(textPanel);
-//
-//        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-//
-//        JLabel clickableText = new JLabel("test");
-//        clickableText.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//        clickableText.setAlignmentX(Component.LEFT_ALIGNMENT);
-//
-//        textPanel.add(clickableText);
-//    }
+    public void update() {
+        textPanel.removeAll();
 
-    // TODO: add function callback in later implementation
+        JLabel title = new JLabel("Portfolio");
+        title.setFont(new Font("Arial", Font.PLAIN, 40));
+
+        textPanel.add(title);
+        textPanel.add(Box.createVerticalStrut(20));
+
+        for (String stockName: portfolio.getOwnedStockNames()) {
+            // in form of marketName:stockName
+            String marketName = stockName.split(":")[0];
+
+            textPanel.add(createClickableText(marketName));
+
+            textPanel.add(Box.createVerticalStrut(10));
+        }
+
+        textPanel.revalidate();
+        textPanel.repaint();
+    }
+
     private JLabel createClickableText(String text) {
         JLabel clickableText = new JLabel(text);
         clickableText.setCursor(new Cursor(Cursor.HAND_CURSOR));
