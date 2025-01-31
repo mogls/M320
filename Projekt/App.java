@@ -49,61 +49,30 @@ public class App extends JFrame {
 
 
         MenuBar menuBar = new MenuBar();
-        PurchasePanel purchasePanel = new PurchasePanel(user);
-        MarketContent marketContent = new MarketContent(stockMarkets);
         PortfolioContent portfolioContent = new PortfolioContent(user);
-        SubContent zurichContent = new SubContent("Zurich", zurich);
+
+        Market market = new Market(stockMarkets, user);
 
         CardLayout cardLayout = new CardLayout();
         JPanel contentPanel = new JPanel(cardLayout);
 
-        contentPanel.add(marketContent.render(), "Markets");
+        contentPanel.add(market.render(), "Markets");
         contentPanel.add(portfolioContent.render(), "Portfolio");
-        contentPanel.add(zurichContent.render(), "Zurich");
-
-//        marketContent.get("Zurich").addMouseListener(e -> cardLayout.show(contentPanel, "Zurich"));
-        marketContent.get("Zurich").addMouseListener(new MouseClick(e -> {
-            cardLayout.show(contentPanel, "Zurich");
-            selectMarket(zurich);
-        }));
-
-        zurichContent.get("Nvidia").addMouseListener(new MouseClick(e -> {
-            e.getComponent().setBackground(Color.BLUE);
-            e.getComponent().setForeground(Color.WHITE);
-            selectStock(e.getComponent().getName());
-        }));
-
-        purchasePanel.get("Purchase").addActionListener(e -> {
-            try {
-                user.purchase(selectedMarket, selectedStock, purchasePanel.getPurchaseAmount());
-            } catch (StockMarketException | UserInputException ex) {
-                System.out.println(ex.getMessage());
-            }
-        });
-
-        menuBar.get("Market").addActionListener(e -> {
-            marketContent.update();
-            cardLayout.show(contentPanel, "Markets");
-        });
 
         menuBar.get("Portfolio").addActionListener(e -> {
             portfolioContent.update();
             cardLayout.show(contentPanel, "Portfolio");
         });
 
+        menuBar.get("Markets").addActionListener(e -> {
+            market.resetUi();
+            cardLayout.show(contentPanel, "Markets");
+        });
+
         cardLayout.show(contentPanel, "Markets");
 
         setJMenuBar(menuBar.render());
         add(contentPanel, BorderLayout.CENTER);
-        add(purchasePanel.render(), BorderLayout.SOUTH);
-    }
-
-    private void selectMarket(StockMarket market) {
-        this.selectedMarket = market;
-    }
-
-    private void selectStock(String stock) {
-        this.selectedStock = stock;
     }
 
     public static void run(String name) {

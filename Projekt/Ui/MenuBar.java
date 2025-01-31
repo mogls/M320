@@ -15,10 +15,10 @@ public class MenuBar extends UiInteractiveItem<JMenuItem> implements Renderable<
         
         JMenu stonksMenu = new JMenu("Stonks");
 
-        JMenuItem marketMenu = new JMenuItem("Market");
+        JMenuItem marketMenu = new JMenuItem("Markets");
         JMenuItem portfolioMenu = new JMenuItem("Portfolio");
 
-        marketMenu.setName("Market");
+        marketMenu.setName("Markets");
         portfolioMenu.setName("Portfolio");
 
         this.add(marketMenu.getName(), marketMenu);
