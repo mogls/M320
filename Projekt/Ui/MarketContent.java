@@ -39,7 +39,7 @@ public class MarketContent extends UiInteractiveItem<JLabel> implements Renderab
     public void update() {
         textPanel.removeAll();
 
-        JLabel title = new JLabel("Portfolio");
+        JLabel title = new JLabel("Stock Markets");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
 
         textPanel.add(title);

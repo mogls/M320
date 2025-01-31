@@ -49,7 +49,7 @@ public class App extends JFrame {
 
 
         MenuBar menuBar = new MenuBar();
-        PortfolioContent portfolioContent = new PortfolioContent(user);
+        PortfolioContainer portfolioContainer = new PortfolioContainer(user);
 
         Market market = new Market(stockMarkets, user);
 
@@ -57,10 +57,10 @@ public class App extends JFrame {
         JPanel contentPanel = new JPanel(cardLayout);
 
         contentPanel.add(market.render(), "Markets");
-        contentPanel.add(portfolioContent.render(), "Portfolio");
+        contentPanel.add(portfolioContainer.render(), "Portfolio");
 
         menuBar.get("Portfolio").addActionListener(e -> {
-            portfolioContent.update();
+            portfolioContainer.update();
             cardLayout.show(contentPanel, "Portfolio");
         });
 
@@ -73,6 +73,7 @@ public class App extends JFrame {
 
         setJMenuBar(menuBar.render());
         add(contentPanel, BorderLayout.CENTER);
+
     }
 
     public static void run(String name) {

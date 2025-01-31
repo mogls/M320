@@ -1,12 +1,13 @@
 package Ui;
 
+import Exceptions.StockMarketException;
+import Exceptions.UserInputException;
 import Interfaces.Renderable;
 import Interfaces.StockMarket;
 import Models.Portfolio;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Market implements Renderable<JPanel> {
@@ -21,12 +22,13 @@ public class Market implements Renderable<JPanel> {
     private MarketContent marketContent;
     private PurchasePanel purchasePanel;
 
-    private ArrayList<SubContent> subContents = new ArrayList<>();
+    private ArrayList<MarketSubContent> marketSubContents = new ArrayList<>();
 
     private String selectedStock;
     private StockMarket selectedMarket;
-    private SubContent selectedSubContent;
+    private MarketSubContent selectedMarketSubContent;
 
+//    private JPanel subContentContainer;
 
     // TODO: update needs removeAll() but functions will be here, so just reapply
     //  afterwards make subContent() and following gets part of a list, as they don't need their own identity
@@ -41,13 +43,17 @@ public class Market implements Renderable<JPanel> {
     }
 
     private void initialize () {
-        this.purchasePanel = new PurchasePanel(this.portfolio);
+        this.purchasePanel = new PurchasePanel();
         this.marketContent = new MarketContent(this.stockMarkets);
 
         this.cardLayout = new CardLayout();
         this.mainPanel = new JPanel(this.cardLayout);
 
+
+
+
         this.mainPanel.add(marketContent.render(),"Markets");
+//        this.mainPanel.add(purchasePanel.render(), BorderLayout.SOUTH);
 
         this.cardLayout.show(this.mainPanel, "Markets");
 
@@ -64,26 +70,49 @@ public class Market implements Renderable<JPanel> {
         this.createMarketFunctions();
         this.createSubContents();
         this.attachSubContentsToMarket();
+        this.setupPurchasePanel();
+    }
+
+    private void setupPurchasePanel() {
+        JButton purchaseButton = this.purchasePanel.get("Purchase");
+        purchaseButton.addActionListener(e -> this.purchaseStock());
+
+    }
+
+    private void purchaseStock() {
+        try {
+            Integer purchaseAmount = this.purchasePanel.getPurchaseAmount();
+            this.portfolio.purchase(this.selectedMarket, this.selectedStock, purchaseAmount);
+        } catch (StockMarketException | UserInputException e) {
+            System.out.println("There was an error: " + e);
+        }
     }
 
     private void createSubContents () {
         for (StockMarket stockMarket : this.stockMarkets) {
-            SubContent subContent = new SubContent(stockMarket.getName(), stockMarket);
-            this.addSubContentSelectors(subContent, stockMarket);
-            this.subContents.add(subContent);
-            this.mainPanel.add(subContent.render(), stockMarket.getName());
+            MarketSubContent marketSubContent = new MarketSubContent(stockMarket.getName(), stockMarket);
+            this.addSubContentSelectors(marketSubContent, stockMarket);
+            this.marketSubContents.add(marketSubContent);
+
+            JPanel subContentContainer = new JPanel();
+
+            subContentContainer.setLayout(new BoxLayout(subContentContainer, BoxLayout.Y_AXIS));
+
+            subContentContainer.add(marketSubContent.render(), BorderLayout.CENTER);
+
+            this.mainPanel.add(subContentContainer, stockMarket.getName());
         }
     }
 
-    private void addSubContentSelectors (SubContent subContent, StockMarket stockMarket) {
+    private void addSubContentSelectors (MarketSubContent marketSubContent, StockMarket stockMarket) {
         for (String stockName : stockMarket.getStockNames()) {
 
             final String selectedStockName = stockName; // to ensure no funny business
 
-            subContent.get(stockName).addMouseListener(new MouseClick(
+            marketSubContent.get(stockName).addMouseListener(new MouseClick(
                     e -> {
                         this.selectStock(selectedStockName);
-                        this.selectSubContent(subContent);
+                        this.selectSubContent(marketSubContent);
                         this.updateSelected();
                     }
             ));
@@ -92,19 +121,24 @@ public class Market implements Renderable<JPanel> {
 
     private void updateSelected () {
         // call update first to clear everything
-        this.selectedSubContent.updateUi();
+        this.selectedMarketSubContent.updateUi();
         // then highlight
-        JComponent toHighlight = this.selectedSubContent.get(this.selectedStock);
+        JComponent toHighlight = this.selectedMarketSubContent.get(this.selectedStock);
         if (toHighlight != null) {
             toHighlight.setBackground(Color.blue);
             toHighlight.setForeground(Color.white);
         } else {
             System.out.println("Warning: No component found for stock " + this.selectedStock);
         }
+
+        Container subContentContainer = selectedMarketSubContent.render().getParent();
+        subContentContainer.add(this.purchasePanel.render(), BorderLayout.SOUTH);
+        subContentContainer.revalidate();
+        subContentContainer.repaint();
     }
 
-    private void selectSubContent(SubContent subContent) {
-        this.selectedSubContent = subContent;
+    private void selectSubContent(MarketSubContent marketSubContent) {
+        this.selectedMarketSubContent = marketSubContent;
     }
 
     private void selectStock(String stockName) {

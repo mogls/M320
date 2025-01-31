@@ -3,36 +3,41 @@ package Ui;
 import Exceptions.StockMarketException;
 import Interfaces.Renderable;
 import Interfaces.StockMarket;
+import Models.Portfolio;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class SubContent extends UiInteractiveItem<JComponent> implements Renderable<JScrollPane> {
+public class PortfolioSubContent extends UiInteractiveItem<JComponent> implements Renderable<JScrollPane> {
     private JScrollPane scrollPane;
     private String name;
 
     private JPanel textPanel;
-    private JPanel pricePanel;
+    private JPanel amountPanel;
     private JPanel mainPanel;
 
     private ArrayList<JLabel> labels = new ArrayList<>();
-    private StockMarket stockMarket;
+    private Portfolio portfolio;
 
-    public SubContent(String titleName, StockMarket stockMarket) {
+    private String selectedMarket;
+
+    public PortfolioSubContent(String titleName, Portfolio portfolio) {
         this.name = titleName;
-        this.stockMarket = stockMarket;
+        this.portfolio = portfolio;
 
+        this.selectedMarket = titleName;
+        
         this.mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1, 2));
         this.textPanel = new JPanel();
-        this.pricePanel = new JPanel();
+        this.amountPanel = new JPanel();
 
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS));
-        pricePanel.setLayout(new BoxLayout(pricePanel, BoxLayout.Y_AXIS));
+        amountPanel.setLayout(new BoxLayout(amountPanel, BoxLayout.Y_AXIS));
 
         mainPanel.add(textPanel);
-        mainPanel.add(pricePanel);
+        mainPanel.add(amountPanel);
 
 
         scrollPane = new JScrollPane(mainPanel);
@@ -44,24 +49,26 @@ public class SubContent extends UiInteractiveItem<JComponent> implements Rendera
         textPanel.add(title);
         textPanel.add(Box.createVerticalStrut(20));
         // title + padding
-        pricePanel.add(Box.createVerticalStrut(68));
+        amountPanel.add(Box.createVerticalStrut(68));
 
-        for (String stockName: stockMarket.getStockNames()) {
-            int price;
-            try {
-                price = stockMarket.getPrice(stockName);
-                pricePanel.add(createText(Integer.toString(price)));
-            } catch (StockMarketException e) {
-                System.out.println(e.getMessage());
+        for (String stockName: portfolio.getOwnedStockNames()) {
+            // in form of marketName:stockName
+            String stock = stockName.split(":")[1];
+            String marketName = stockName.split(":")[0];
+
+            if (!selectedMarket.equals(marketName)) {
+                continue;
             }
-            // TODO add second column which displays the price
-            textPanel.add(createClickableText(stockName));
+            
+            int amount = portfolio.getOwnedStock(stockName);
+
+            amountPanel.add(createText(Integer.toString(amount)));
+
+            textPanel.add(createClickableText(stock));
 
             textPanel.add(Box.createVerticalStrut(10));
-            pricePanel.add(Box.createVerticalStrut(10));
-
+            amountPanel.add(Box.createVerticalStrut(10));
         }
-
     }
 
     public void updateUi () {
@@ -75,10 +82,10 @@ public class SubContent extends UiInteractiveItem<JComponent> implements Rendera
     public void updateAll() {
         mainPanel.removeAll();
         textPanel.removeAll();
-        pricePanel.removeAll();
+        amountPanel.removeAll();
 
         mainPanel.add(textPanel);
-        mainPanel.add(pricePanel);
+        mainPanel.add(amountPanel);
 
 
         JLabel title = new JLabel(this.name);
@@ -87,22 +94,25 @@ public class SubContent extends UiInteractiveItem<JComponent> implements Rendera
         textPanel.add(title);
         textPanel.add(Box.createVerticalStrut(20));
         // title + padding
-        pricePanel.add(Box.createVerticalStrut(68));
+        amountPanel.add(Box.createVerticalStrut(68));
 
-        for (String stockName: stockMarket.getStockNames()) {
-            int price;
-            try {
-                price = stockMarket.getPrice(stockName);
-                pricePanel.add(createText(Integer.toString(price)));
-            } catch (StockMarketException e) {
-                System.out.println(e.getMessage());
+        for (String stockName: portfolio.getOwnedStockNames()) {
+            // in form of marketName:stockName
+            String stock = stockName.split(":")[1];
+            String marketName = stockName.split(":")[0];
+
+            if (!selectedMarket.equals(marketName)) {
+                continue;
             }
-            // TODO add second column which displays the price
-            textPanel.add(createClickableText(stockName));
+
+            int amount = portfolio.getOwnedStock(stockName);
+
+            amountPanel.add(createText(Integer.toString(amount)));
+
+            textPanel.add(createClickableText(stock));
 
             textPanel.add(Box.createVerticalStrut(10));
-            pricePanel.add(Box.createVerticalStrut(10));
-
+            amountPanel.add(Box.createVerticalStrut(10));
         }
 
         mainPanel.revalidate();

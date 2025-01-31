@@ -12,10 +12,7 @@ public class PurchasePanel extends UiInteractiveItem<JButton> implements Rendera
 
     private JTextField textField;
 
-    private Portfolio portfolio;
-
-    public PurchasePanel(Portfolio portfolio) {
-        this.portfolio = portfolio;
+    public PurchasePanel() {
         this.panel = new JPanel();
         JLabel label = new JLabel("Amount to purchase: ");
         this.textField = new JTextField(10); // accepts up to 10 characters
@@ -47,7 +44,15 @@ public class PurchasePanel extends UiInteractiveItem<JButton> implements Rendera
     }
 
     public Integer getPurchaseAmount() {
-        return Integer.parseInt(this.textField.getText());
+        int purchaseAmount;
+        try {
+            purchaseAmount = Integer.parseInt(this.textField.getText());
+        } catch (Exception e) {
+            System.out.println("There was an error in getPurchaseAmount, defaulting to 0");
+            purchaseAmount = 0;
+        }
+
+        return purchaseAmount;
     }
 
     /**
